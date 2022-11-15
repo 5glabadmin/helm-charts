@@ -1,0 +1,24 @@
+---
+# SPDX-FileCopyrightText: 2022-present Intel Corporation
+# Copyright 2020-present Open Networking Foundation
+
+#
+# SPDX-License-Identifier: Apache-2.0
+
+apiVersion: v2
+description: SD-Core 5G control plane services
+name: 5g-control-plane
+icon: https://guide.opencord.org/logos/cord.svg
+
+version: 0.8.3
+
+dependencies:
+  - name: mongodb
+    version: 10.31.5
+    repository: https://charts.bitnami.com/bitnami
+    condition: mongodb.deploy
+  - name: kafka
+    version: 16.2.10
+    repository: https://charts.bitnami.com/bitnami
+    condition: kafka.deploy
+
