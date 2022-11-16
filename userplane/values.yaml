@@ -1,0 +1,110 @@
+#
+# Software Name : towards5gs-helm
+# SPDX-FileCopyrightText: Copyright (c) 2021 Orange
+# SPDX-License-Identifier: Apache-2.0
+#
+# This software is distributed under the Apache License 2.0,
+# the text of which is available at https://github.com/Orange-OpenSource/towards5gs-helm/blob/main/LICENSE
+# or see the "LICENSE" file for more details.
+#
+# Author: Abderaouf KHICHANE, Ilhem FAJJARI, Ayoub BOUSSELMI
+# Software description: An open-source project providing Helm charts to deploy 5G components (Core + RAN) on top of Kubernetes
+#
+# Default values for free5gcUserPlane chart.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+
+global:
+  projectName: free5gc
+  userPlaneArchitecture: single  # possible values are "single" and "ulcl"
+  uesubnet: 10.1.0.0/16
+Global network parametes
+  n4network:
+    name: n4network
+    masterIf: eth0
+    subnetIP: 192.168.120.0
+    cidr: 24
+    gatewayIP: 192.168.120.1
+    excludeIP: 192.168.120.11
+  n3network:
+    name: n3network
+    masterIf: eth1
+    subnetIP: 192.168.140.0
+    cidr: 24
+    gatewayIP: 192.168.140.1
+    excludeIP: 192.168.140.1
+  n6network:
+    name: n6network
+    masterIf: eth2
+    subnetIP: 192.168.150.0
+    cidr: 24
+    gatewayIP: 192.168.150.1
+    excludeIP: 192.168.150.1
+
+upf:
+  name: upf
+  replicaCount: 1
+  image:
+    name: towards5gs/free5gc-upf
+    pullPolicy: Always
+  configmap:
+    name: upf-configmap
+  volume:
+    name: upf-volume
+    mount: /free5gc/config/
+
+  # network paramters
+  n3if:  # GTP-U
+    ipAddress: 192.168.140.2
+  n4if:  # PFCP
+    ipAddress: 192.168.120.2
+  n6if:  # DN
+    ipAddress: 192.168.150.2
+
+  podAnnotations: {}
+    # additional annotations
+  imagePullSecrets: []
+  podSecurityContext: {}
+  securityContext:
+    capabilities:
+      add: ["NET_ADMIN"]
+  resources:
+    limits:
+      cpu: 500m
+      memory: 512Mi
+    requests:
+      cpu: 500m
+      memory: 512Mi
+  readinessProbe:
+    initialDelaySeconds: 0
+    periodSeconds: 1
+    timeoutSeconds: 1
+    failureThreshold:  40
+    successThreshold: 1
+  livenessProbe:
+    initialDelaySeconds: 120
+    periodSeconds: 10
+    timeoutSeconds: 10
+    failureThreshold: 3
+    successThreshold: 1
+  nodeSelector: {}
+  tolerations: []
+  affinity: {}
+  autoscaling:
+    enabled: false
+    minReplicas: 1
+    maxReplicas: 100
+    targetCPUUtilizationPercentage: 80
+    # targetMemoryUtilizationPercentage: 80
+  configuration:
+    dnnList: # The DNN list supported by UPF
+      - dnn: internet # Data Network Name
+        cidr: 10.1.0.0/17 # Classless Inter-Domain Routing for assigned IPv4 pool of UE
+        natifname: n6
+
+    logger: # log output setting
+      enable: true # true or false
+      level: info # how detailed to output, value: trace, debug, info, warn, error, fatal, panic
+      reportCaller: false # enable the caller report or not, value: true or false
+
