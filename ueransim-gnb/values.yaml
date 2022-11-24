@@ -60,7 +60,7 @@ gnb:
 
   amf:
     n2if:  # NGAP
-      ipAddress: 192.168.200.11
+      ipAddress: 10.2.255.254
       port: 38412
     service:
       ngap:
