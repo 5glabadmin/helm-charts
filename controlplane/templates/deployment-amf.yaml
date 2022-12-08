@@ -24,6 +24,7 @@ spec:
 {{ tuple "amf" . | include "5g-control-plane.metadata_labels" | indent 8 }}
     {{- with .Values.config.amf.podAnnotations }}
       annotations:
+        "cni.projectcalico.org/ipAddrs": "[\"10.2.255.254\"]"
         {{- toYaml . | nindent 8 }}
     {{- end }}
     spec:

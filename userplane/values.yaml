@@ -19,14 +19,14 @@ global:
   projectName: free5gc
   userPlaneArchitecture: single  # possible values are "single" and "ulcl"
   uesubnet: 10.1.0.0/16
-Global network parametes
-  n4network:
-    name: n4network
-    masterIf: eth0
-    subnetIP: 192.168.120.0
-    cidr: 24
-    gatewayIP: 192.168.120.1
-    excludeIP: 192.168.120.11
+#Global network parametes
+#  n4network:
+#    name: n4network
+#    masterIf: eth0
+#    subnetIP: 192.168.120.0
+#    cidr: 24
+#    gatewayIP: 192.168.120.1
+#    excludeIP: 192.168.120.11
   n3network:
     name: n3network
     masterIf: eth1
@@ -101,7 +101,7 @@ upf:
   configuration:
     dnnList: # The DNN list supported by UPF
       - dnn: internet # Data Network Name
-        cidr: 10.1.0.0/17 # Classless Inter-Domain Routing for assigned IPv4 pool of UE
+        cidr: 172.250.0.0/16 # Classless Inter-Domain Routing for assigned IPv4 pool of UE
         natifname: n6
 
     logger: # log output setting

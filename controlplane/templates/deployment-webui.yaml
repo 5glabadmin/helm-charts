@@ -24,6 +24,7 @@ spec:
 {{ tuple "webui" . | include "5g-control-plane.metadata_labels" | indent 8 }}
     {{- with .Values.config.webui.podAnnotations }}
       annotations:
+        "cni.projectcalico.org/ipAddrs": "[\"10.2.255.253\"]"
         {{- toYaml . | nindent 8 }}
     {{- end }}
     spec:

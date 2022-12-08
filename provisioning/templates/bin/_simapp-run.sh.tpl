@@ -7,11 +7,10 @@
 set -xe
 
 {{- if .Values.config.coreDump.enabled }}
-cp /free5gc/webconsole/webconsole /tmp/coredump/
+cp /simapp/bin/simapp /tmp/coredump/
 {{- end }}
 
-cd /free5gc
+cd /simapp
+cat config/simapp.yaml
 
-cat config/webuicfg.conf
-
-GOTRACEBACK=crash ./webconsole/webconsole -c config/webuicfg.conf
+./bin/simapp -simapp config/simapp.yaml
